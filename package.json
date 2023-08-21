@@ -1,7 +1,7 @@
 {
-  "name": "@napi-rs/package-template",
+  "name": "memoryts",
   "version": "1.0.0",
-  "description": "Template project for writing node package with napi-rs",
+  "description": "Out of the box Typescript memory read write for Windows",
   "main": "index.js",
   "repository": "git@github.com:napi-rs/package-template.git",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "index.js"
   ],
   "napi": {
-    "name": "package-template",
+    "name": "memoryts",
     "triples": {
       "defaults": true,
       "additional": [
@@ -44,7 +44,6 @@
   },
   "scripts": {
     "artifacts": "napi artifacts",
-    "bench": "node -r @swc-node/register benchmark/bench.ts",
     "build": "napi build --platform --release --pipe \"prettier -w\"",
     "build:debug": "napi build --platform --pipe \"prettier -w\"",
     "format": "run-p format:prettier format:rs format:toml",
@@ -64,7 +63,6 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "ava": "^5.1.1",
-    "benny": "^3.7.1",
     "chalk": "^5.2.0",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^9.0.0",
