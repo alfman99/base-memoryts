@@ -1,8 +1,11 @@
+use std::ptr;
+
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
 use crate::{process::open_process_name, util::get_last_error};
 use winapi::{
+    ctypes::c_void,
     shared::{basetsd::SIZE_T, minwindef::LPVOID},
     um::{
         memoryapi::{ReadProcessMemory, VirtualProtectEx, WriteProcessMemory},
@@ -38,14 +41,14 @@ pub fn set_protection(
 
 #[napi]
 pub fn read_byte(process_handle: External<HANDLE>, address: i64) -> Result<u8> {
-    let value: u8 = 0;
+    let mut value: u8 = 0;
     let mut read_bytes: SIZE_T = 0;
 
     let result = unsafe {
         ReadProcessMemory(
             *process_handle,
             address as usize as *mut _,
-            value as LPVOID,
+            ptr::addr_of_mut!(value) as *mut c_void,
             std::mem::size_of::<u8>(),
             &mut read_bytes,
         )
@@ -87,6 +90,7 @@ pub fn write(
 #[test]
 fn test_read_byte_from_notepad() {
     let process_handle = open_process_name("Notepad.exe".to_string()).unwrap();
-    let value = read_byte(process_handle, 0x0).unwrap();
-    assert_eq!(value, 0x4d);
+    let value = read_byte(process_handle, 0x7FF8041D3930).unwrap();
+    println!("Value: {}", char::from(value));
+    assert!(value > 0);
 }

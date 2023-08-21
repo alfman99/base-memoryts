@@ -31,14 +31,12 @@ test('is 64 bits?', (t) => {
 
 test('read memory from Notepad.exe', (t) => {
   try {
-    const handler = openProcessName('Spotify.exe')
-    console.log('handler:', handler)
-    const buffer = readByte(handler, 0x7ff8041d3930)
-    console.log('buffer:', buffer)
+    const handler = openProcessName('Notepad.exe')
+    const character = String.fromCharCode(readByte(handler, 0x7ff8041d3930))
+    t.true(character === 'X')
   } catch (e: any) {
-    console.error(e)
+    t.fail(e.message)
   }
-  t.true(true)
 })
 
 // test('read memory from Notepad.exe', (t) => {
