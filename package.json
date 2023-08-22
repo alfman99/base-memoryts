@@ -9,21 +9,12 @@
     "triples": {
       "defaults": false,
       "additional": [
-        "aarch64-pc-windows-msvc",
-        "x86_64-pc-windows-msvc",
-        "i686-pc-windows-msvc"
+        "x86_64-pc-windows-msvc"
       ]
     }
   },
   "license": "MIT",
   "repository": "git@github.com:napi-rs/package-template.git",
-  "os": [
-    "win32"
-  ],
-  "cpu": [
-    "x32",
-    "x64"
-  ],
   "keywords": [
     "napi-rs",
     "NAPI",
@@ -104,8 +95,6 @@
   },
   "packageManager": "yarn@3.6.2",
   "optionalDependencies": {
-    "@memoryts/base-win32-x64-msvc": "1.0.0",
-    "@memoryts/base-win32-ia32-msvc": "1.0.0",
-    "@memoryts/base-win32-arm64-msvc": "1.0.0"
+    "@memoryts/base-win32-x64-msvc": "1.0.0"
   }
 }
