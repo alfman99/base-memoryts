@@ -50,7 +50,7 @@ test('read memory from Notepad.exe', (t) => {
 test('write memory to Notepad.exe', (t) => {
   try {
     const handler = openProcessName('Notepad.exe')
-    writeBuffer(handler, 0x7fff33db3930, [0x58, 0x00, 0x58, 0x00, 0x58, 0x00, 0x58, 0x00])
+    writeBuffer(handler, 0x7fff33db3930, Buffer.from([0x69]))
     t.pass()
   } catch (e: any) {
     t.fail(e.message)
