@@ -3,6 +3,19 @@
   "version": "1.0.0",
   "description": "Base addon for memoryts",
   "main": "index.js",
+  "types": "index.d.ts",
+  "napi": {
+    "name": "base",
+    "triples": {
+      "defaults": false,
+      "additional": [
+        "aarch64-pc-windows-msvc",
+        "x86_64-pc-windows-msvc",
+        "i686-pc-windows-msvc"
+      ]
+    }
+  },
+  "license": "MIT",
   "repository": "git@github.com:napi-rs/package-template.git",
   "os": [
     "win32"
@@ -11,7 +24,6 @@
     "x32",
     "x64"
   ],
-  "license": "MIT",
   "keywords": [
     "napi-rs",
     "NAPI",
@@ -20,20 +32,6 @@
     "node-addon",
     "node-addon-api"
   ],
-  "files": [
-    "index.d.ts",
-    "index.js"
-  ],
-  "napi": {
-    "name": "base",
-    "triples": {
-      "defaults": true,
-      "additional": [
-        "i686-pc-windows-msvc",
-        "aarch64-pc-windows-msvc"
-      ]
-    }
-  },
   "engines": {
     "node": ">= 10"
   },
@@ -106,8 +104,8 @@
   },
   "packageManager": "yarn@3.6.2",
   "optionalDependencies": {
-    "@memoryts/base-win32-arm64-msvc": "1.0.0",
+    "@memoryts/base-win32-x64-msvc": "1.0.0",
     "@memoryts/base-win32-ia32-msvc": "1.0.0",
-    "@memoryts/base-win32-x64-msvc": "1.0.0"
+    "@memoryts/base-win32-arm64-msvc": "1.0.0"
   }
 }
