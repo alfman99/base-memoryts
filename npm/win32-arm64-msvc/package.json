@@ -1,5 +1,5 @@
 {
-  "name": "base-win32-arm64-msvc",
+  "name": "@memoryts/base-win32-arm64-msvc",
   "version": "1.0.0",
   "os": [
     "win32"
