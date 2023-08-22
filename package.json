@@ -1,6 +1,6 @@
 {
   "name": "@memoryts/base",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Base addon for memoryts",
   "main": "index.js",
   "types": "index.d.ts",
@@ -96,6 +96,6 @@
   },
   "packageManager": "yarn@3.6.2",
   "optionalDependencies": {
-    "@memoryts/base-win32-x64-msvc": "1.0.1"
+    "@memoryts/base-win32-x64-msvc": "1.0.2"
   }
 }
