@@ -38,7 +38,7 @@ pub fn set_protection(
 }
 
 #[napi]
-pub fn read_buffer(process_handle: External<HANDLE>, address: i64, size: u32) -> Result<Vec<u8>> {
+pub fn read_buffer(process_handle: External<HANDLE>, address: i64, size: u32) -> Result<Buffer> {
     let mut buffer: Vec<u8> = vec![0; size as usize];
     let mut read_bytes: SIZE_T = 0;
 
@@ -58,11 +58,11 @@ pub fn read_buffer(process_handle: External<HANDLE>, address: i64, size: u32) ->
 
     buffer.resize(read_bytes as usize, 0);
 
-    Ok(buffer)
+    Ok(buffer.into())
 }
 
 #[napi]
-pub fn write_buffer(process_handle: External<HANDLE>, address: i64, buffer: Vec<u8>) -> Result<()> {
+pub fn write_buffer(process_handle: External<HANDLE>, address: i64, buffer: Buffer) -> Result<()> {
     let mut written_bytes: SIZE_T = 0;
 
     let result = unsafe {
@@ -70,7 +70,7 @@ pub fn write_buffer(process_handle: External<HANDLE>, address: i64, buffer: Vec<
             *process_handle,
             address as *mut _,
             buffer.as_ptr() as *mut _,
-            buffer.capacity(),
+            buffer.len(),
             &mut written_bytes,
         )
     };
@@ -96,7 +96,7 @@ fn test_write_4bytes_to_notepad() {
     let value = write_buffer(
         process_handle,
         0x7FFF33DB3930,
-        vec![b'm', b'.', b'a', b'.', b'n', b'.'],
+        vec![b'm', b'.', b'a', b'.', b'n', b'.'].into(),
     )
     .unwrap();
     assert!(value == ());

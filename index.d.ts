@@ -15,8 +15,8 @@ export function setProtection(
   size: number,
   protection: number,
 ): number
-export function readBuffer(processHandle: ExternalObject<HANDLE>, address: number, size: number): Array<number>
-export function writeBuffer(processHandle: ExternalObject<HANDLE>, address: number, buffer: Array<number>): void
+export function readBuffer(processHandle: ExternalObject<HANDLE>, address: number, size: number): Buffer
+export function writeBuffer(processHandle: ExternalObject<HANDLE>, address: number, buffer: Buffer): void
 export function getProcessModules(processHandle: ExternalObject<HANDLE>): Array<ModuleInfo>
 export function listAllRunningProcesses(): Array<ProcessInfo>
 export function openProcessPid(processPid: number): ExternalObject<HANDLE>
