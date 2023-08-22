@@ -236,8 +236,8 @@ if (!nativeBinding) {
 
 const {
   setProtection,
-  readByte,
-  write,
+  readMemory,
+  writeMemory,
   ProcessInfo,
   listProcesses,
   openProcessPid,
@@ -248,8 +248,8 @@ const {
 } = nativeBinding
 
 module.exports.setProtection = setProtection
-module.exports.readByte = readByte
-module.exports.write = write
+module.exports.readMemory = readMemory
+module.exports.writeMemory = writeMemory
 module.exports.ProcessInfo = ProcessInfo
 module.exports.listProcesses = listProcesses
 module.exports.openProcessPid = openProcessPid

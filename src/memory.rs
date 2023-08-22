@@ -40,16 +40,16 @@ pub fn set_protection(
 }
 
 #[napi]
-pub fn read_byte(process_handle: External<HANDLE>, address: i64) -> Result<u8> {
-    let mut value: u8 = 0;
+pub fn read_memory(process_handle: External<HANDLE>, address: i64, size: u32) -> Result<Vec<u8>> {
+    let mut buffer: Vec<u8> = vec![0; size as usize];
     let mut read_bytes: SIZE_T = 0;
 
     let result = unsafe {
         ReadProcessMemory(
             *process_handle,
-            address as usize as *mut _,
-            ptr::addr_of_mut!(value) as *mut c_void,
-            std::mem::size_of::<u8>(),
+            address as *const c_void,
+            buffer.as_mut_ptr() as *mut _,
+            size as usize,
             &mut read_bytes,
         )
     };
@@ -58,16 +58,13 @@ pub fn read_byte(process_handle: External<HANDLE>, address: i64) -> Result<u8> {
         return Err(Error::new(Status::GenericFailure, get_last_error()?));
     }
 
-    return Ok(value);
+    buffer.resize(read_bytes as usize, 0);
+
+    Ok(buffer)
 }
 
 #[napi]
-pub fn write(
-    process_handle: External<HANDLE>,
-    address: i64,
-    buffer: Vec<u8>,
-    size: u32,
-) -> Result<()> {
+pub fn write_memory(process_handle: External<HANDLE>, address: i64, buffer: Vec<u8>) -> Result<()> {
     let mut written_bytes: SIZE_T = 0;
 
     let result = unsafe {
@@ -75,12 +72,12 @@ pub fn write(
             *process_handle,
             address as *mut _,
             buffer.as_ptr() as *mut _,
-            size as usize,
+            buffer.capacity(),
             &mut written_bytes,
         )
     };
 
-    if result == 0 || written_bytes != size as SIZE_T {
+    if result == 0 {
         return Err(Error::new(Status::GenericFailure, get_last_error()?));
     }
 
@@ -88,9 +85,21 @@ pub fn write(
 }
 
 #[test]
-fn test_read_byte_from_notepad() {
+fn test_read_4bytes_from_notepad() {
     let process_handle = open_process_name("Notepad.exe".to_string()).unwrap();
-    let value = read_byte(process_handle, 0x7FF8041D3930).unwrap();
-    println!("Value: {}", char::from(value));
-    assert!(value > 0);
+    let value = read_memory(process_handle, 0x7FFF33DB3930, 4).unwrap();
+    println!("Value: {}", char::from(value[0]));
+    assert!(value[0] > 0);
+}
+
+#[test]
+fn test_write_4bytes_to_notepad() {
+    let process_handle = open_process_name("Notepad.exe".to_string()).unwrap();
+    let value = write_memory(
+        process_handle,
+        0x7FFF33DB3930,
+        vec![b'm', b'.', b'a', b'.', b'n', b'.'],
+    )
+    .unwrap();
+    assert!(value == ());
 }
