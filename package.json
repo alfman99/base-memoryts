@@ -106,10 +106,8 @@
   },
   "packageManager": "yarn@3.6.2",
   "optionalDependencies": {
-    "@memoryts/base-win32-x64-msvc": "1.0.0",
-    "@memoryts/base-darwin-x64": "1.0.0",
-    "@memoryts/base-linux-x64-gnu": "1.0.0",
+    "@memoryts/base-win32-arm64-msvc": "1.0.0",
     "@memoryts/base-win32-ia32-msvc": "1.0.0",
-    "@memoryts/base-win32-arm64-msvc": "1.0.0"
+    "@memoryts/base-win32-x64-msvc": "1.0.0"
   }
 }
