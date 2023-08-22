@@ -1,3 +1,3 @@
-# `memoryts-win32-ia32-msvc`
+# `base-memoryts-win32-ia32-msvc`
 
-This is the **i686-pc-windows-msvc** binary for `memoryts`
+This is the **i686-pc-windows-msvc** binary for `base-memoryts`

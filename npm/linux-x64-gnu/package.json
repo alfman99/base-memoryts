@@ -1,15 +1,15 @@
 {
-  "name": "base-memoryts-win32-x64-msvc",
+  "name": "base-memoryts-linux-x64-gnu",
   "version": "1.0.0",
   "os": [
-    "win32"
+    "linux"
   ],
   "cpu": [
     "x64"
   ],
-  "main": "base-memoryts.win32-x64-msvc.node",
+  "main": "base-memoryts.linux-x64-gnu.node",
   "files": [
-    "base-memoryts.win32-x64-msvc.node"
+    "base-memoryts.linux-x64-gnu.node"
   ],
   "description": "Base addon for memoryts",
   "keywords": [
@@ -28,5 +28,8 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "repository": "git@github.com:napi-rs/package-template.git"
+  "repository": "git@github.com:napi-rs/package-template.git",
+  "libc": [
+    "glibc"
+  ]
 }

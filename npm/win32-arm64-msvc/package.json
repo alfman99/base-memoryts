@@ -1,5 +1,5 @@
 {
-  "name": "memoryts-win32-arm64-msvc",
+  "name": "base-memoryts-win32-arm64-msvc",
   "version": "1.0.0",
   "os": [
     "win32"
@@ -7,11 +7,11 @@
   "cpu": [
     "arm64"
   ],
-  "main": "memoryts.win32-arm64-msvc.node",
+  "main": "base-memoryts.win32-arm64-msvc.node",
   "files": [
-    "memoryts.win32-arm64-msvc.node"
+    "base-memoryts.win32-arm64-msvc.node"
   ],
-  "description": "Out of the box Typescript memory read write for Windows",
+  "description": "Base addon for memoryts",
   "keywords": [
     "napi-rs",
     "NAPI",

@@ -1,15 +1,15 @@
 {
-  "name": "base-memoryts-win32-x64-msvc",
+  "name": "base-memoryts-darwin-x64",
   "version": "1.0.0",
   "os": [
-    "win32"
+    "darwin"
   ],
   "cpu": [
     "x64"
   ],
-  "main": "base-memoryts.win32-x64-msvc.node",
+  "main": "base-memoryts.darwin-x64.node",
   "files": [
-    "base-memoryts.win32-x64-msvc.node"
+    "base-memoryts.darwin-x64.node"
   ],
   "description": "Base addon for memoryts",
   "keywords": [
