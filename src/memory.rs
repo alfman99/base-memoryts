@@ -1,12 +1,10 @@
-use std::ptr;
-
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
-use crate::{process::open_process_name, util::get_last_error};
+use crate::util::get_last_error;
 use winapi::{
     ctypes::c_void,
-    shared::{basetsd::SIZE_T, minwindef::LPVOID},
+    shared::basetsd::SIZE_T,
     um::{
         memoryapi::{ReadProcessMemory, VirtualProtectEx, WriteProcessMemory},
         winnt::HANDLE,
@@ -40,7 +38,7 @@ pub fn set_protection(
 }
 
 #[napi]
-pub fn read_memory(process_handle: External<HANDLE>, address: i64, size: u32) -> Result<Vec<u8>> {
+pub fn read_buffer(process_handle: External<HANDLE>, address: i64, size: u32) -> Result<Vec<u8>> {
     let mut buffer: Vec<u8> = vec![0; size as usize];
     let mut read_bytes: SIZE_T = 0;
 
@@ -64,7 +62,7 @@ pub fn read_memory(process_handle: External<HANDLE>, address: i64, size: u32) ->
 }
 
 #[napi]
-pub fn write_memory(process_handle: External<HANDLE>, address: i64, buffer: Vec<u8>) -> Result<()> {
+pub fn write_buffer(process_handle: External<HANDLE>, address: i64, buffer: Vec<u8>) -> Result<()> {
     let mut written_bytes: SIZE_T = 0;
 
     let result = unsafe {
@@ -86,16 +84,16 @@ pub fn write_memory(process_handle: External<HANDLE>, address: i64, buffer: Vec<
 
 #[test]
 fn test_read_4bytes_from_notepad() {
-    let process_handle = open_process_name("Notepad.exe".to_string()).unwrap();
-    let value = read_memory(process_handle, 0x7FFF33DB3930, 4).unwrap();
+    let process_handle = super::process::open_process_name("Notepad.exe".to_string()).unwrap();
+    let value = read_buffer(process_handle, 0x7FFF33DB3930, 4).unwrap();
     println!("Value: {}", char::from(value[0]));
     assert!(value[0] > 0);
 }
 
 #[test]
 fn test_write_4bytes_to_notepad() {
-    let process_handle = open_process_name("Notepad.exe".to_string()).unwrap();
-    let value = write_memory(
+    let process_handle = super::process::open_process_name("Notepad.exe".to_string()).unwrap();
+    let value = write_buffer(
         process_handle,
         0x7FFF33DB3930,
         vec![b'm', b'.', b'a', b'.', b'n', b'.'],

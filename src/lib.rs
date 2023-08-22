@@ -1,6 +1,6 @@
 #![deny(clippy::all)]
 
 mod memory;
-// mod module;
+mod module;
 mod process;
 mod util;

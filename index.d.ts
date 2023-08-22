@@ -15,14 +15,20 @@ export function setProtection(
   size: number,
   protection: number,
 ): number
-export function readMemory(processHandle: ExternalObject<HANDLE>, address: number, size: number): Array<number>
-export function writeMemory(processHandle: ExternalObject<HANDLE>, address: number, buffer: Array<number>): void
-export function listProcesses(): Array<ProcessInfo>
+export function readBuffer(processHandle: ExternalObject<HANDLE>, address: number, size: number): Array<number>
+export function writeBuffer(processHandle: ExternalObject<HANDLE>, address: number, buffer: Array<number>): void
+export function getProcessModules(processHandle: ExternalObject<HANDLE>): Array<ModuleInfo>
+export function listAllRunningProcesses(): Array<ProcessInfo>
 export function openProcessPid(processPid: number): ExternalObject<HANDLE>
 export function openProcessName(processName: string): ExternalObject<HANDLE>
 export function closeProcess(processHandle: ExternalObject<HANDLE>): void
 export function isElevatedProcess(): boolean
 export function is64BitProcess(): boolean
+export class ModuleInfo {
+  name: string
+  baseAddress: DWORD
+  constructor(name: string, baseAddress: DWORD)
+}
 export class ProcessInfo {
   processName: string
   processId: DWORD

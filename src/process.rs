@@ -18,7 +18,7 @@ pub struct ProcessInfo {
 }
 
 #[napi]
-pub fn list_processes() -> Result<Vec<ProcessInfo>> {
+pub fn list_all_running_processes() -> Result<Vec<ProcessInfo>> {
     let snapshot_result: HANDLE = unsafe { CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0) };
 
     let snapshot_handle = match snapshot_result {
@@ -64,7 +64,7 @@ pub fn open_process_pid(process_pid: u32) -> Result<External<HANDLE>> {
 
 #[napi]
 pub fn open_process_name(process_name: String) -> Result<External<HANDLE>> {
-    let processes = list_processes()?;
+    let processes = list_all_running_processes()?;
 
     let process = processes
         .iter()
