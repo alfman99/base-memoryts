@@ -1,5 +1,5 @@
 {
-  "name": "base-memoryts-darwin-x64",
+  "name": "base-darwin-x64",
   "version": "1.0.0",
   "os": [
     "darwin"
@@ -7,9 +7,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "base-memoryts.darwin-x64.node",
+  "main": "base.darwin-x64.node",
   "files": [
-    "base-memoryts.darwin-x64.node"
+    "base.darwin-x64.node"
   ],
   "description": "Base addon for memoryts",
   "keywords": [

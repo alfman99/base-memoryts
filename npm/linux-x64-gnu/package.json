@@ -1,5 +1,5 @@
 {
-  "name": "base-memoryts-linux-x64-gnu",
+  "name": "base-linux-x64-gnu",
   "version": "1.0.0",
   "os": [
     "linux"
@@ -7,9 +7,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "base-memoryts.linux-x64-gnu.node",
+  "main": "base.linux-x64-gnu.node",
   "files": [
-    "base-memoryts.linux-x64-gnu.node"
+    "base.linux-x64-gnu.node"
   ],
   "description": "Base addon for memoryts",
   "keywords": [

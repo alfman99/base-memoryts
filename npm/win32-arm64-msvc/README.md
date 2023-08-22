@@ -1,3 +1,3 @@
-# `base-memoryts-win32-arm64-msvc`
+# `base-win32-arm64-msvc`
 
-This is the **aarch64-pc-windows-msvc** binary for `base-memoryts`
+This is the **aarch64-pc-windows-msvc** binary for `base`

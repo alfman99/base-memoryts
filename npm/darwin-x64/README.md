@@ -1,3 +1,3 @@
-# `base-memoryts-darwin-x64`
+# `base-darwin-x64`
 
-This is the **x86_64-apple-darwin** binary for `base-memoryts`
+This is the **x86_64-apple-darwin** binary for `base`
