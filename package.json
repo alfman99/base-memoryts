@@ -97,5 +97,10 @@
     "singleQuote": true,
     "arrowParens": "always"
   },
-  "packageManager": "yarn@3.6.2"
+  "packageManager": "yarn@3.6.2",
+  "optionalDependencies": {
+    "base-memoryts-win32-arm64-msvc": "1.0.0",
+    "base-memoryts-win32-ia32-msvc": "1.0.0",
+    "base-memoryts-win32-x64-msvc": "1.0.0"
+  }
 }
