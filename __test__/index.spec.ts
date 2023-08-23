@@ -2,13 +2,14 @@
 import test from 'ava'
 
 import {
-  getProcessModules,
+  getModule,
+  getProcessPid,
   is64BitProcess,
   isElevatedProcess,
   listAllRunningProcesses,
+  listModules,
   openProcessName,
   readBuffer,
-  writeBuffer,
 } from '../index'
 
 test('is running elevated?', (t) => {
@@ -37,32 +38,25 @@ test('get unexistant process test6test.exe', (t) => {
   }
 })
 
-test('read memory from Notepad.exe', (t) => {
-  try {
-    const handler = openProcessName('Notepad.exe')
-    const bufferRead = readBuffer(handler, 0x7fff33db3930, 1)
-    t.true(String.fromCharCode(bufferRead[0]) === 'X')
-  } catch (e: any) {
-    t.fail(e.message)
-  }
-})
-
-test('write memory to Notepad.exe', (t) => {
-  try {
-    const handler = openProcessName('Notepad.exe')
-    writeBuffer(handler, 0x7fff33db3930, Buffer.from([0x69]))
-    t.pass()
-  } catch (e: any) {
-    t.fail(e.message)
-  }
-})
-
 test('list all modules from Notepad.exe', (t) => {
   try {
-    const handler = openProcessName('Notepad.exe')
-    const modules = getProcessModules(handler)
-    console.log(modules.map((m) => m.baseAddress))
+    const pid = getProcessPid('Notepad.exe')
+    const modules = listModules(pid)
     t.true(modules.length > 0)
+  } catch (e: any) {
+    t.fail(e.message)
+  }
+})
+
+test('read memory from Notepad.exe resolving static pointer', (t) => {
+  try {
+    const moduleInfo = getModule('Notepad.exe', 'textinputframework.dll')
+    const offset = 0x133930
+
+    const handler = openProcessName('Notepad.exe')
+    const bufferRead = readBuffer(handler, moduleInfo.modBaseAddr + offset, 1)
+
+    t.true(String.fromCharCode(bufferRead[0]) === 'X')
   } catch (e: any) {
     t.fail(e.message)
   }

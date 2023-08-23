@@ -17,20 +17,65 @@ export function setProtection(
 ): number
 export function readBuffer(process_handle: ExternalObject<unknown>, address: number, size: number): Buffer
 export function writeBuffer(process_handle: ExternalObject<unknown>, address: number, buffer: Buffer): void
-export function getProcessModules(process_handle: ExternalObject<unknown>): Array<ModuleInfo>
-export function listAllRunningProcesses(): Array<ProcessInfo>
+export function listModules(processPid: number): Array<Jsmoduleentry32>
+export function getModule(processName: string, moduleName: string): Jsmoduleentry32
+export function listAllRunningProcesses(): Array<Jsprocessentry32>
 export function openProcessPid(processPid: number): ExternalObject<unknown>
 export function openProcessName(processName: string): ExternalObject<unknown>
+export function getProcessPid(processName: string): number
 export function closeProcess(process_handle: ExternalObject<unknown>): void
 export function isElevatedProcess(): boolean
 export function is64BitProcess(): boolean
+export type JSMODULEENTRY32 = Jsmoduleentry32
+export class Jsmoduleentry32 {
+  dwSize: number
+  th32ModuleId: number
+  th32ProcessId: number
+  glblcntUsage: number
+  proccntUsage: number
+  modBaseAddr: number
+  modBaseSize: number
+  szModule: string
+  szExePath: string
+  constructor(
+    dwSize: number,
+    th32ModuleId: number,
+    th32ProcessId: number,
+    glblcntUsage: number,
+    proccntUsage: number,
+    modBaseAddr: number,
+    modBaseSize: number,
+    szModule: string,
+    szExePath: string,
+  )
+}
 export class ModuleInfo {
   name: string
   baseAddress: number
   constructor(name: string, baseAddress: number)
 }
-export class ProcessInfo {
-  processName: string
-  processId: number
-  constructor(processName: string, processId: number)
+export type JSPROCESSENTRY32 = Jsprocessentry32
+export class Jsprocessentry32 {
+  dwSize: number
+  cntUsage: number
+  th32ProcessId: number
+  th32DefaultHeapId: number
+  th32ModuleId: number
+  cntThreads: number
+  th32ParentProcessId: number
+  pcPriClassBase: number
+  dwFlags: number
+  szExeFile: string
+  constructor(
+    dwSize: number,
+    cntUsage: number,
+    th32ProcessId: number,
+    th32DefaultHeapId: number,
+    th32ModuleId: number,
+    cntThreads: number,
+    th32ParentProcessId: number,
+    pcPriClassBase: number,
+    dwFlags: number,
+    szExeFile: string,
+  )
 }

@@ -12,13 +12,21 @@ use winapi::um::winnt::{HANDLE, PROCESS_ALL_ACCESS};
 use crate::util::get_last_error;
 
 #[napi(constructor)]
-pub struct ProcessInfo {
-    pub process_name: String,
-    pub process_id: u32,
+pub struct JSPROCESSENTRY32 {
+    pub dw_size: u32,
+    pub cnt_usage: u32,
+    pub th32_process_id: u32,
+    pub th32_default_heap_id: u32,
+    pub th32_module_id: u32,
+    pub cnt_threads: u32,
+    pub th32_parent_process_id: u32,
+    pub pc_pri_class_base: i32,
+    pub dw_flags: u32,
+    pub sz_exe_file: String,
 }
 
 #[napi]
-pub fn list_all_running_processes() -> Result<Vec<ProcessInfo>> {
+pub fn list_all_running_processes() -> Result<Vec<JSPROCESSENTRY32>> {
     let snapshot_result: HANDLE = unsafe { CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0) };
 
     let snapshot_handle = match snapshot_result {
@@ -35,14 +43,22 @@ pub fn list_all_running_processes() -> Result<Vec<ProcessInfo>> {
         return Err(Error::new(Status::GenericFailure, get_last_error()?));
     }
 
-    let mut process_list: Vec<ProcessInfo> = Vec::new();
+    let mut process_list: Vec<JSPROCESSENTRY32> = Vec::new();
 
     while unsafe { Process32Next(snapshot_handle, &mut process_entry) != 0 } {
         let process_name = unsafe { std::ffi::CStr::from_ptr(process_entry.szExeFile.as_ptr()) };
         let process_name_string = process_name.to_str().unwrap().to_string();
-        process_list.push(ProcessInfo {
-            process_name: process_name_string,
-            process_id: process_entry.th32ProcessID,
+        process_list.push(JSPROCESSENTRY32 {
+            dw_size: process_entry.dwSize,
+            cnt_usage: process_entry.cntUsage,
+            th32_process_id: process_entry.th32ProcessID,
+            th32_default_heap_id: process_entry.th32DefaultHeapID as u32,
+            th32_module_id: process_entry.th32ModuleID,
+            cnt_threads: process_entry.cntThreads,
+            th32_parent_process_id: process_entry.th32ParentProcessID,
+            pc_pri_class_base: process_entry.pcPriClassBase,
+            dw_flags: process_entry.dwFlags,
+            sz_exe_file: process_name_string,
         });
     }
 
@@ -68,11 +84,27 @@ pub fn open_process_name(process_name: String) -> Result<External<HANDLE>> {
 
     let process = processes
         .iter()
-        .find(|&process| process.process_name == process_name);
+        .find(|&process| process.sz_exe_file == process_name);
 
     if let Some(process) = process {
-        let process_id = process.process_id;
+        let process_id = process.th32_process_id;
         return open_process_pid(process_id);
+    }
+
+    return Err(Error::from_status(Status::Closing));
+}
+
+#[napi]
+pub fn get_process_pid(process_name: String) -> Result<u32> {
+    let processes = list_all_running_processes()?;
+
+    let process = processes
+        .iter()
+        .find(|&process| process.sz_exe_file == process_name);
+
+    if let Some(process) = process {
+        let process_id = process.th32_process_id;
+        return Ok(process_id);
     }
 
     return Err(Error::from_status(Status::Closing));

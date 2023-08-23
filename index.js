@@ -238,12 +238,15 @@ const {
   setProtection,
   readBuffer,
   writeBuffer,
+  Jsmoduleentry32,
   ModuleInfo,
-  getProcessModules,
-  ProcessInfo,
+  listModules,
+  getModule,
+  Jsprocessentry32,
   listAllRunningProcesses,
   openProcessPid,
   openProcessName,
+  getProcessPid,
   closeProcess,
   isElevatedProcess,
   is64BitProcess,
@@ -252,12 +255,15 @@ const {
 module.exports.setProtection = setProtection
 module.exports.readBuffer = readBuffer
 module.exports.writeBuffer = writeBuffer
+module.exports.Jsmoduleentry32 = Jsmoduleentry32
 module.exports.ModuleInfo = ModuleInfo
-module.exports.getProcessModules = getProcessModules
-module.exports.ProcessInfo = ProcessInfo
+module.exports.listModules = listModules
+module.exports.getModule = getModule
+module.exports.Jsprocessentry32 = Jsprocessentry32
 module.exports.listAllRunningProcesses = listAllRunningProcesses
 module.exports.openProcessPid = openProcessPid
 module.exports.openProcessName = openProcessName
+module.exports.getProcessPid = getProcessPid
 module.exports.closeProcess = closeProcess
 module.exports.isElevatedProcess = isElevatedProcess
 module.exports.is64BitProcess = is64BitProcess
