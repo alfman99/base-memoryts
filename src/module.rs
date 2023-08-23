@@ -26,13 +26,6 @@ pub struct JSMODULEENTRY32 {
     pub sz_exe_path: String,
 }
 
-// TODO: TEMPORAL STRUCT
-#[napi(constructor)]
-pub struct ModuleInfo {
-    pub name: String,
-    pub base_address: u32,
-}
-
 #[napi]
 pub fn list_modules(process_pid: u32) -> Result<Vec<JSMODULEENTRY32>> {
     let h_module_snap = unsafe { CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, process_pid) };
