@@ -2,16 +2,16 @@ use napi::bindgen_prelude::*;
 use napi_derive::napi;
 
 use winapi::shared::minwindef::HMODULE;
-use winapi::shared::{minwindef::DWORD, ntdef::HANDLE};
+use winapi::shared::ntdef::HANDLE;
 use winapi::um::psapi::{EnumProcessModules, GetModuleFileNameExW};
 
 #[napi(constructor)]
 pub struct ModuleInfo {
     pub name: String,
-    pub base_address: DWORD,
+    pub base_address: u32,
 }
 
-#[napi]
+#[napi(ts_args_type = "process_handle: ExternalObject<unknown>")]
 pub fn get_process_modules(process_handle: External<HANDLE>) -> Result<Vec<ModuleInfo>> {
     let mut module_handles = vec![0 as HMODULE; 1024];
     let mut needed: u32 = 0;
@@ -57,7 +57,7 @@ pub fn get_process_modules(process_handle: External<HANDLE>) -> Result<Vec<Modul
 
         module_infos.push(ModuleInfo {
             name: module_name_str,
-            base_address: module_handles[i] as DWORD,
+            base_address: module_handles[i] as u32,
         });
     }
 

@@ -10,27 +10,27 @@ export class ExternalObject<T> {
   }
 }
 export function setProtection(
-  processHandle: ExternalObject<HANDLE>,
+  process_handle: ExternalObject<unknown>,
   address: number,
   size: number,
   protection: number,
 ): number
-export function readBuffer(processHandle: ExternalObject<HANDLE>, address: number, size: number): Buffer
-export function writeBuffer(processHandle: ExternalObject<HANDLE>, address: number, buffer: Buffer): void
-export function getProcessModules(processHandle: ExternalObject<HANDLE>): Array<ModuleInfo>
+export function readBuffer(process_handle: ExternalObject<unknown>, address: number, size: number): Buffer
+export function writeBuffer(process_handle: ExternalObject<unknown>, address: number, buffer: Buffer): void
+export function getProcessModules(process_handle: ExternalObject<unknown>): Array<ModuleInfo>
 export function listAllRunningProcesses(): Array<ProcessInfo>
-export function openProcessPid(processPid: number): ExternalObject<HANDLE>
-export function openProcessName(processName: string): ExternalObject<HANDLE>
-export function closeProcess(processHandle: ExternalObject<HANDLE>): void
+export function openProcessPid(processPid: number): ExternalObject<unknown>
+export function openProcessName(processName: string): ExternalObject<unknown>
+export function closeProcess(process_handle: ExternalObject<unknown>): void
 export function isElevatedProcess(): boolean
 export function is64BitProcess(): boolean
 export class ModuleInfo {
   name: string
-  baseAddress: DWORD
-  constructor(name: string, baseAddress: DWORD)
+  baseAddress: number
+  constructor(name: string, baseAddress: number)
 }
 export class ProcessInfo {
   processName: string
-  processId: DWORD
-  constructor(processName: string, processId: DWORD)
+  processId: number
+  constructor(processName: string, processId: number)
 }

@@ -11,7 +11,9 @@ use winapi::{
     },
 };
 
-#[napi]
+#[napi(
+    ts_args_type = "process_handle: ExternalObject<unknown>, address: number, size: number, protection: number"
+)]
 pub fn set_protection(
     process_handle: External<HANDLE>,
     address: i64,
@@ -22,7 +24,7 @@ pub fn set_protection(
 
     let result = unsafe {
         VirtualProtectEx(
-            *process_handle,
+            *process_handle as *mut _,
             address as *mut _,
             size as SIZE_T,
             protection,
@@ -37,7 +39,7 @@ pub fn set_protection(
     return Ok(old_protection);
 }
 
-#[napi]
+#[napi(ts_args_type = "process_handle: ExternalObject<unknown>, address: number, size: number")]
 pub fn read_buffer(process_handle: External<HANDLE>, address: i64, size: u32) -> Result<Buffer> {
     let mut buffer: Vec<u8> = vec![0; size as usize];
     let mut read_bytes: SIZE_T = 0;
@@ -61,7 +63,7 @@ pub fn read_buffer(process_handle: External<HANDLE>, address: i64, size: u32) ->
     Ok(buffer.into())
 }
 
-#[napi]
+#[napi(ts_args_type = "process_handle: ExternalObject<unknown>, address: number, buffer: Buffer")]
 pub fn write_buffer(process_handle: External<HANDLE>, address: i64, buffer: Buffer) -> Result<()> {
     let mut written_bytes: SIZE_T = 0;
 

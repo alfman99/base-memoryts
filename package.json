@@ -2,7 +2,7 @@
   "name": "@memoryts/base",
   "version": "1.0.2",
   "description": "Base addon for memoryts",
-  "main": "index.js",
+  "main": "index.ts",
   "types": "index.d.ts",
   "napi": {
     "name": "base",

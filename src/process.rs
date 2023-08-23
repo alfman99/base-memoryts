@@ -14,7 +14,7 @@ use crate::util::get_last_error;
 #[napi(constructor)]
 pub struct ProcessInfo {
     pub process_name: String,
-    pub process_id: DWORD,
+    pub process_id: u32,
 }
 
 #[napi]
@@ -51,7 +51,7 @@ pub fn list_all_running_processes() -> Result<Vec<ProcessInfo>> {
     return Ok(process_list);
 }
 
-#[napi]
+#[napi(ts_return_type = "ExternalObject<unknown>")]
 pub fn open_process_pid(process_pid: u32) -> Result<External<HANDLE>> {
     let process_handle = unsafe { OpenProcess(PROCESS_ALL_ACCESS, 0, process_pid) };
 
@@ -62,7 +62,7 @@ pub fn open_process_pid(process_pid: u32) -> Result<External<HANDLE>> {
     return Ok(External::new(process_handle));
 }
 
-#[napi]
+#[napi(ts_return_type = "ExternalObject<unknown>")]
 pub fn open_process_name(process_name: String) -> Result<External<HANDLE>> {
     let processes = list_all_running_processes()?;
 
@@ -78,7 +78,7 @@ pub fn open_process_name(process_name: String) -> Result<External<HANDLE>> {
     return Err(Error::from_status(Status::Closing));
 }
 
-#[napi]
+#[napi(ts_args_type = "process_handle: ExternalObject<unknown>")]
 pub fn close_process(process_handle: External<HANDLE>) -> Result<()> {
     let result = unsafe { CloseHandle(*process_handle) };
 
