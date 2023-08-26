@@ -10,20 +10,31 @@ export class ExternalObject<T> {
   }
 }
 export function setProtection(
-  process_handle: ExternalObject<unknown>,
+  processHandle: ExternalObject<unknown>,
   address: number,
   size: number,
   protection: number,
 ): number
-export function readBuffer(process_handle: ExternalObject<unknown>, address: number, size: number): Buffer
-export function writeBuffer(process_handle: ExternalObject<unknown>, address: number, buffer: Buffer): void
+export function readBuffer(processHandle: ExternalObject<unknown>, address: number, size: number): Buffer
+export function writeBuffer(processHandle: ExternalObject<unknown>, address: number, buffer: Buffer): void
+export function patternScan(
+  processHandle: ExternalObject<HANDLE>,
+  pattern: string,
+  fromAddr: number,
+  toAddr: number,
+): number
 export function listModules(processPid: number): Array<Jsmoduleentry32>
-export function getModule(processName: string, moduleName: string): Jsmoduleentry32
+export function getModuleEntry32(processName: string, moduleName: string): Jsmoduleentry32
+export function getModuleHandle(processName: string, moduleName: string): ExternalObject<HMODULE>
+export function getModuleInformation(
+  processHandle: ExternalObject<HANDLE>,
+  moduleHandle: ExternalObject<HMODULE>,
+): Jslpmoduleinfo
 export function listAllRunningProcesses(): Array<Jsprocessentry32>
 export function openProcessPid(processPid: number): ExternalObject<unknown>
 export function openProcessName(processName: string): ExternalObject<unknown>
 export function getProcessPid(processName: string): number
-export function closeProcess(process_handle: ExternalObject<unknown>): void
+export function closeProcess(processHandle: ExternalObject<unknown>): void
 export function isElevatedProcess(): boolean
 export function is64BitProcess(): boolean
 export type JSMODULEENTRY32 = Jsmoduleentry32
@@ -37,22 +48,14 @@ export class Jsmoduleentry32 {
   modBaseSize: number
   szModule: string
   szExePath: string
-  constructor(
-    dwSize: number,
-    th32ModuleId: number,
-    th32ProcessId: number,
-    glblcntUsage: number,
-    proccntUsage: number,
-    modBaseAddr: number,
-    modBaseSize: number,
-    szModule: string,
-    szExePath: string,
-  )
+  get moduleHandle(): ExternalObject<HMODULE>
 }
-export class ModuleInfo {
-  name: string
-  baseAddress: number
-  constructor(name: string, baseAddress: number)
+export type JSLPMODULEINFO = Jslpmoduleinfo
+export class Jslpmoduleinfo {
+  baseOfDll: number
+  sizeOfImage: number
+  entryPoint: number
+  constructor(baseOfDll: number, sizeOfImage: number, entryPoint: number)
 }
 export type JSPROCESSENTRY32 = Jsprocessentry32
 export class Jsprocessentry32 {

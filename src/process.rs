@@ -34,7 +34,7 @@ pub fn list_all_running_processes() -> Result<Vec<JSPROCESSENTRY32>> {
         _ => snapshot_result,
     };
 
-    let mut process_entry: PROCESSENTRY32 = unsafe { std::mem::zeroed() };
+    let mut process_entry = unsafe { std::mem::zeroed::<PROCESSENTRY32>() };
 
     process_entry.dwSize = std::mem::size_of::<PROCESSENTRY32>() as DWORD;
 
@@ -110,7 +110,7 @@ pub fn get_process_pid(process_name: String) -> Result<u32> {
     return Err(Error::from_status(Status::Closing));
 }
 
-#[napi(ts_args_type = "process_handle: ExternalObject<unknown>")]
+#[napi(ts_args_type = "processHandle: ExternalObject<unknown>")]
 pub fn close_process(process_handle: External<HANDLE>) -> Result<()> {
     let result = unsafe { CloseHandle(*process_handle) };
 

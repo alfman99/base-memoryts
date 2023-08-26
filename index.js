@@ -238,10 +238,13 @@ const {
   setProtection,
   readBuffer,
   writeBuffer,
+  patternScan,
   Jsmoduleentry32,
-  ModuleInfo,
+  Jslpmoduleinfo,
   listModules,
-  getModule,
+  getModuleEntry32,
+  getModuleHandle,
+  getModuleInformation,
   Jsprocessentry32,
   listAllRunningProcesses,
   openProcessPid,
@@ -255,10 +258,13 @@ const {
 module.exports.setProtection = setProtection
 module.exports.readBuffer = readBuffer
 module.exports.writeBuffer = writeBuffer
+module.exports.patternScan = patternScan
 module.exports.Jsmoduleentry32 = Jsmoduleentry32
-module.exports.ModuleInfo = ModuleInfo
+module.exports.Jslpmoduleinfo = Jslpmoduleinfo
 module.exports.listModules = listModules
-module.exports.getModule = getModule
+module.exports.getModuleEntry32 = getModuleEntry32
+module.exports.getModuleHandle = getModuleHandle
+module.exports.getModuleInformation = getModuleInformation
 module.exports.Jsprocessentry32 = Jsprocessentry32
 module.exports.listAllRunningProcesses = listAllRunningProcesses
 module.exports.openProcessPid = openProcessPid
