@@ -10,31 +10,31 @@ export class ExternalObject<T> {
   }
 }
 export function setProtection(
-  processHandle: ExternalObject<unknown>,
+  processHandle: ExternalObject<HANDLE>,
   address: number,
   size: number,
   protection: number,
 ): number
-export function readBuffer(processHandle: ExternalObject<unknown>, address: number, size: number): Buffer
-export function writeBuffer(processHandle: ExternalObject<unknown>, address: number, buffer: Buffer): void
+export function readBuffer(processHandle: ExternalObject<HANDLE>, address: number, size: number): Buffer
+export function writeBuffer(processHandle: ExternalObject<HANDLE>, address: number, buffer: Buffer): void
 export function patternScan(
   processHandle: ExternalObject<HANDLE>,
   pattern: string,
   fromAddr: number,
   toAddr: number,
 ): number
-export function listModules(processPid: number): Array<Jsmoduleentry32>
-export function getModuleEntry32(processName: string, moduleName: string): Jsmoduleentry32
+export function listProcessModules(processPid: number): Array<Jsmoduleentry32>
+export function getProcessModuleEntry32(processName: string, moduleName: string): Jsmoduleentry32
 export function getModuleHandle(processName: string, moduleName: string): ExternalObject<HMODULE>
 export function getModuleInformation(
   processHandle: ExternalObject<HANDLE>,
   moduleHandle: ExternalObject<HMODULE>,
 ): Jslpmoduleinfo
 export function listAllRunningProcesses(): Array<Jsprocessentry32>
-export function openProcessPid(processPid: number): ExternalObject<unknown>
-export function openProcessName(processName: string): ExternalObject<unknown>
+export function openProcessPid(processPid: number): ExternalObject<HANDLE>
+export function openProcessName(processName: string): ExternalObject<HANDLE>
 export function getProcessPid(processName: string): number
-export function closeProcess(processHandle: ExternalObject<unknown>): void
+export function closeProcess(processHandle: ExternalObject<HANDLE>): void
 export function isElevatedProcess(): boolean
 export function is64BitProcess(): boolean
 export type JSMODULEENTRY32 = Jsmoduleentry32

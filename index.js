@@ -241,8 +241,8 @@ const {
   patternScan,
   Jsmoduleentry32,
   Jslpmoduleinfo,
-  listModules,
-  getModuleEntry32,
+  listProcessModules,
+  getProcessModuleEntry32,
   getModuleHandle,
   getModuleInformation,
   Jsprocessentry32,
@@ -261,8 +261,8 @@ module.exports.writeBuffer = writeBuffer
 module.exports.patternScan = patternScan
 module.exports.Jsmoduleentry32 = Jsmoduleentry32
 module.exports.Jslpmoduleinfo = Jslpmoduleinfo
-module.exports.listModules = listModules
-module.exports.getModuleEntry32 = getModuleEntry32
+module.exports.listProcessModules = listProcessModules
+module.exports.getProcessModuleEntry32 = getProcessModuleEntry32
 module.exports.getModuleHandle = getModuleHandle
 module.exports.getModuleInformation = getModuleInformation
 module.exports.Jsprocessentry32 = Jsprocessentry32

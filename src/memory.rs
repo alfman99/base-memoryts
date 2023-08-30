@@ -12,7 +12,7 @@ use winapi::{
 };
 
 #[napi(
-    ts_args_type = "processHandle: ExternalObject<unknown>, address: number, size: number, protection: number"
+    ts_args_type = "processHandle: ExternalObject<HANDLE>, address: number, size: number, protection: number"
 )]
 pub fn set_protection(
     process_handle: External<HANDLE>,
@@ -39,7 +39,7 @@ pub fn set_protection(
     return Ok(old_protection);
 }
 
-#[napi(ts_args_type = "processHandle: ExternalObject<unknown>, address: number, size: number")]
+#[napi(ts_args_type = "processHandle: ExternalObject<HANDLE>, address: number, size: number")]
 pub fn read_buffer(process_handle: External<HANDLE>, address: i64, size: u32) -> Result<Buffer> {
     let mut buffer: Vec<u8> = vec![0; size as usize];
     let mut read_bytes: SIZE_T = 0;
@@ -63,7 +63,7 @@ pub fn read_buffer(process_handle: External<HANDLE>, address: i64, size: u32) ->
     Ok(buffer.into())
 }
 
-#[napi(ts_args_type = "processHandle: ExternalObject<unknown>, address: number, buffer: Buffer")]
+#[napi(ts_args_type = "processHandle: ExternalObject<HANDLE>, address: number, buffer: Buffer")]
 pub fn write_buffer(process_handle: External<HANDLE>, address: i64, buffer: Buffer) -> Result<()> {
     let mut written_bytes: SIZE_T = 0;
 
@@ -92,37 +92,36 @@ pub fn pattern_scan(
     from_addr: i64,
     to_addr: i64,
 ) -> Result<i64> {
-    // Pattern being: "6D 2E 61 ?? 6E 2E"
-    // Where ?? is a wildcard byte
     let pattern_bytes: Vec<u8> = pattern
-        .split(" ")
+        .split(' ')
         .map(|byte| {
             if byte == "??" {
-                return 0x3F; // Wildcard byte '?'
+                0x3F
+            } else {
+                u8::from_str_radix(byte, 16).unwrap()
             }
-
-            return u8::from_str_radix(byte, 16).unwrap();
         })
         .collect();
 
     let step_size = 0x50;
+    let pattern_len = pattern_bytes.len();
 
     for i in (from_addr..to_addr).step_by(step_size as usize) {
         let buffer = read_buffer(External::new(*process_handle), i, step_size)?;
-        let mut found = true;
+        let buffer_len = buffer.len();
 
-        for j in 0..pattern_bytes.len() {
-            if pattern_bytes[j] != buffer[j] {
-                found = false;
-                break;
+        for j in 0..(buffer_len - pattern_len + 1) {
+            if pattern_bytes
+                .iter()
+                .enumerate()
+                .all(|(k, &byte)| byte == buffer[j + k] || byte == 0x3F)
+            {
+                return Ok(i + j as i64);
             }
         }
-
-        if found {
-            return Ok(i);
-        }
     }
-    return Err(Error::new(Status::GenericFailure, "Pattern not found"));
+
+    Err(Error::new(Status::GenericFailure, "Pattern not found"))
 }
 
 #[test]
@@ -154,18 +153,29 @@ fn test_write_4bytes_to_notepad() {
 
 #[test]
 fn test_pattern_scanner() {
-    let process_handle = super::process::open_process_name("Notepad.exe".to_string()).unwrap();
-    let module_info = super::module::get_module_entry32(
-        "Notepad.exe".to_string(),
+    let process_handle = super::process::open_process_name("notepad.exe".to_string()).unwrap();
+    let module_info = super::module::get_process_module_entry32(
+        "notepad.exe".to_string(),
         "textinputframework.dll".to_string(),
     )
     .unwrap();
-    let value = pattern_scan(
-        process_handle,
-        "6D 00 61 00 6E 00 00 00".to_string(),
+    let address_found = pattern_scan(
+        External::new(*process_handle),
+        "00 00 ?? 00 68 00 61 00 74 00 20 00 68 00 61 00 70 00 70 00 65 00 6E 00 69 00 6E 00"
+            .to_string(),
         module_info.mod_base_addr as i64,
-        module_info.mod_base_addr as i64 + module_info.dw_size as i64,
+        module_info.mod_base_addr as i64 + 0xF9500,
     )
     .unwrap();
-    assert!(value > 0);
+
+    let buffer = read_buffer(process_handle, address_found + 2, 26).unwrap();
+
+    let (_, slice, _) = unsafe { buffer.align_to::<u16>() };
+
+    let s = match String::from_utf16(slice) {
+        Ok(v) => v,
+        Err(e) => panic!("Invalid UTF-8 sequence: {}", e),
+    };
+
+    assert!(s.is_ascii());
 }

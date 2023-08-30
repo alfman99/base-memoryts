@@ -67,7 +67,7 @@ pub fn list_all_running_processes() -> Result<Vec<JSPROCESSENTRY32>> {
     return Ok(process_list);
 }
 
-#[napi(ts_return_type = "ExternalObject<unknown>")]
+#[napi(ts_return_type = "ExternalObject<HANDLE>")]
 pub fn open_process_pid(process_pid: u32) -> Result<External<HANDLE>> {
     let process_handle = unsafe { OpenProcess(PROCESS_ALL_ACCESS, 0, process_pid) };
 
@@ -78,7 +78,7 @@ pub fn open_process_pid(process_pid: u32) -> Result<External<HANDLE>> {
     return Ok(External::new(process_handle));
 }
 
-#[napi(ts_return_type = "ExternalObject<unknown>")]
+#[napi(ts_return_type = "ExternalObject<HANDLE>")]
 pub fn open_process_name(process_name: String) -> Result<External<HANDLE>> {
     let processes = list_all_running_processes()?;
 
@@ -110,7 +110,7 @@ pub fn get_process_pid(process_name: String) -> Result<u32> {
     return Err(Error::from_status(Status::Closing));
 }
 
-#[napi(ts_args_type = "processHandle: ExternalObject<unknown>")]
+#[napi(ts_args_type = "processHandle: ExternalObject<HANDLE>")]
 pub fn close_process(process_handle: External<HANDLE>) -> Result<()> {
     let result = unsafe { CloseHandle(*process_handle) };
 

@@ -58,8 +58,9 @@ pub struct JSLPMODULEINFO {
     pub entry_point: i64,
 }
 
+// Lists all modules in a process
 #[napi]
-pub fn list_modules(process_pid: u32) -> Result<Vec<JSMODULEENTRY32>> {
+pub fn list_process_modules(process_pid: u32) -> Result<Vec<JSMODULEENTRY32>> {
     let h_module_snap = unsafe { CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, process_pid) };
 
     let mut module_entries = Vec::<MODULEENTRY32>::new();
@@ -121,11 +122,15 @@ pub fn list_modules(process_pid: u32) -> Result<Vec<JSMODULEENTRY32>> {
     Ok(js_module_entries)
 }
 
+// Get a module from a process by name
 #[napi]
-pub fn get_module_entry32(process_name: String, module_name: String) -> Result<JSMODULEENTRY32> {
+pub fn get_process_module_entry32(
+    process_name: String,
+    module_name: String,
+) -> Result<JSMODULEENTRY32> {
     let process_id = get_process_pid(process_name)?;
 
-    let module_entries = list_modules(process_id)?;
+    let module_entries = list_process_modules(process_id)?;
 
     for module in module_entries {
         if module.sz_module == module_name {
@@ -136,13 +141,15 @@ pub fn get_module_entry32(process_name: String, module_name: String) -> Result<J
     return Err(Error::from_status(Status::Closing));
 }
 
+// Get a module handle from a process by name
 #[napi]
 pub fn get_module_handle(process_name: String, module_name: String) -> Result<External<HMODULE>> {
-    let module = get_module_entry32(process_name, module_name)?;
+    let module = get_process_module_entry32(process_name, module_name)?;
 
     Ok(module.get_module_handle())
 }
 
+// Get module information from a process handle and module handle
 #[napi]
 pub fn get_module_information(
     process_handle: External<HANDLE>,
@@ -181,7 +188,7 @@ fn test_list_proces_modules() {
         }
     };
 
-    let modules = list_modules(process_id);
+    let modules = list_process_modules(process_id);
 
     let modules = match modules {
         Ok(module) => module,
@@ -201,7 +208,7 @@ fn test_list_proces_modules() {
 
 #[test]
 pub fn test_get_module() {
-    let module = get_module_entry32("Notepad.exe".to_string(), "Notepad.exe".to_string());
+    let module = get_process_module_entry32("Notepad.exe".to_string(), "Notepad.exe".to_string());
 
     let module = match module {
         Ok(module) => module,
