@@ -240,17 +240,20 @@ const {
   writeBuffer,
   patternScan,
   Jsmoduleentry32,
-  Jslpmoduleinfo,
   listProcessModules,
   getProcessModuleEntry32,
   getModuleHandle,
   getModuleInformation,
-  Jsprocessentry32,
   listAllRunningProcesses,
   openProcessPid,
   openProcessName,
   getProcessPid,
   closeProcess,
+  isProcessX64,
+  processHandleToPid,
+  processNameToPid,
+  processHandleToName,
+  processPidToName,
   isElevatedProcess,
   is64BitProcess,
 } = nativeBinding
@@ -260,16 +263,19 @@ module.exports.readBuffer = readBuffer
 module.exports.writeBuffer = writeBuffer
 module.exports.patternScan = patternScan
 module.exports.Jsmoduleentry32 = Jsmoduleentry32
-module.exports.Jslpmoduleinfo = Jslpmoduleinfo
 module.exports.listProcessModules = listProcessModules
 module.exports.getProcessModuleEntry32 = getProcessModuleEntry32
 module.exports.getModuleHandle = getModuleHandle
 module.exports.getModuleInformation = getModuleInformation
-module.exports.Jsprocessentry32 = Jsprocessentry32
 module.exports.listAllRunningProcesses = listAllRunningProcesses
 module.exports.openProcessPid = openProcessPid
 module.exports.openProcessName = openProcessName
 module.exports.getProcessPid = getProcessPid
 module.exports.closeProcess = closeProcess
+module.exports.isProcessX64 = isProcessX64
+module.exports.processHandleToPid = processHandleToPid
+module.exports.processNameToPid = processNameToPid
+module.exports.processHandleToName = processHandleToName
+module.exports.processPidToName = processPidToName
 module.exports.isElevatedProcess = isElevatedProcess
 module.exports.is64BitProcess = is64BitProcess

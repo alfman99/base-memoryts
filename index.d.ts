@@ -23,6 +23,11 @@ export function patternScan(
   fromAddr: number,
   toAddr: number,
 ): number
+export interface Jslpmoduleinfo {
+  baseOfDll: number
+  sizeOfImage: number
+  entryPoint: number
+}
 export function listProcessModules(processPid: number): Array<Jsmoduleentry32>
 export function getProcessModuleEntry32(processName: string, moduleName: string): Jsmoduleentry32
 export function getModuleHandle(processName: string, moduleName: string): ExternalObject<HMODULE>
@@ -30,11 +35,28 @@ export function getModuleInformation(
   processHandle: ExternalObject<HANDLE>,
   moduleHandle: ExternalObject<HMODULE>,
 ): Jslpmoduleinfo
+export interface Jsprocessentry32 {
+  dwSize: number
+  cntUsage: number
+  th32ProcessId: number
+  th32DefaultHeapId: number
+  th32ModuleId: number
+  cntThreads: number
+  th32ParentProcessId: number
+  pcPriClassBase: number
+  dwFlags: number
+  szExeFile: string
+}
 export function listAllRunningProcesses(): Array<Jsprocessentry32>
 export function openProcessPid(processPid: number): ExternalObject<HANDLE>
 export function openProcessName(processName: string): ExternalObject<HANDLE>
 export function getProcessPid(processName: string): number
 export function closeProcess(processHandle: ExternalObject<HANDLE>): void
+export function isProcessX64(processHandle: ExternalObject<HANDLE>): boolean
+export function processHandleToPid(processHandle: ExternalObject<HANDLE>): number
+export function processNameToPid(processName: string): number
+export function processHandleToName(processHandle: ExternalObject<HANDLE>): string
+export function processPidToName(processPID: number): string
 export function isElevatedProcess(): boolean
 export function is64BitProcess(): boolean
 export type JSMODULEENTRY32 = Jsmoduleentry32
@@ -49,36 +71,4 @@ export class Jsmoduleentry32 {
   szModule: string
   szExePath: string
   get moduleHandle(): ExternalObject<HMODULE>
-}
-export type JSLPMODULEINFO = Jslpmoduleinfo
-export class Jslpmoduleinfo {
-  baseOfDll: number
-  sizeOfImage: number
-  entryPoint: number
-  constructor(baseOfDll: number, sizeOfImage: number, entryPoint: number)
-}
-export type JSPROCESSENTRY32 = Jsprocessentry32
-export class Jsprocessentry32 {
-  dwSize: number
-  cntUsage: number
-  th32ProcessId: number
-  th32DefaultHeapId: number
-  th32ModuleId: number
-  cntThreads: number
-  th32ParentProcessId: number
-  pcPriClassBase: number
-  dwFlags: number
-  szExeFile: string
-  constructor(
-    dwSize: number,
-    cntUsage: number,
-    th32ProcessId: number,
-    th32DefaultHeapId: number,
-    th32ModuleId: number,
-    cntThreads: number,
-    th32ParentProcessId: number,
-    pcPriClassBase: number,
-    dwFlags: number,
-    szExeFile: string,
-  )
 }

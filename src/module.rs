@@ -51,7 +51,7 @@ impl JSMODULEENTRY32 {
     }
 }
 
-#[napi(constructor)]
+#[napi(object)]
 pub struct JSLPMODULEINFO {
     pub base_of_dll: i64,
     pub size_of_image: u32,

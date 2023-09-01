@@ -8,7 +8,8 @@
     "triples": {
       "defaults": false,
       "additional": [
-        "x86_64-pc-windows-msvc"
+        "x86_64-pc-windows-msvc",
+        "i686-pc-windows-msvc"
       ]
     }
   },
@@ -31,7 +32,8 @@
   },
   "scripts": {
     "artifacts": "napi artifacts",
-    "build": "napi build --platform --release --pipe \"prettier -w\"",
+    "build": "napi build --target x86_64-pc-windows-msvc --platform --release --pipe \"prettier -w\"",
+    "build:32": "napi build --target i686-pc-windows-msvc --platform --release --pipe \"prettier -w\"",
     "build:debug": "napi build --platform --pipe \"prettier -w\"",
     "format": "run-p format:prettier format:rs format:toml",
     "format:prettier": "prettier . -w",

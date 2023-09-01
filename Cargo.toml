@@ -12,7 +12,18 @@ crate-type = ["cdylib"]
 [dependencies]
 napi        = "2"
 napi-derive = "2"
-winapi = { version = "0.3.9", features = ["tlhelp32", "wincontypes", "handleapi", "processthreadsapi", "memoryapi", "winbase", "psapi", "securitybaseapi"]}
+winapi = { version = "0.3.9", features = [
+  "tlhelp32",
+  "wincontypes",
+  "handleapi",
+  "processthreadsapi",
+  "memoryapi",
+  "winbase",
+  "psapi",
+  "securitybaseapi",
+  "synchapi",
+  "wow64apiset"
+]}
 
 [build-dependencies]
 napi-build = "2"

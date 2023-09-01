@@ -3,15 +3,17 @@ use napi_derive::napi;
 
 use winapi::shared::minwindef::DWORD;
 use winapi::um::handleapi::{CloseHandle, INVALID_HANDLE_VALUE};
-use winapi::um::processthreadsapi::OpenProcess;
+use winapi::um::processthreadsapi::{GetProcessId, OpenProcess};
+use winapi::um::psapi::GetProcessImageFileNameA;
 use winapi::um::tlhelp32::{
     CreateToolhelp32Snapshot, Process32First, Process32Next, PROCESSENTRY32, TH32CS_SNAPPROCESS,
 };
 use winapi::um::winnt::{HANDLE, PROCESS_ALL_ACCESS};
+use winapi::um::wow64apiset::IsWow64Process;
 
 use crate::util::get_last_error;
 
-#[napi(constructor)]
+#[napi(object)]
 pub struct JSPROCESSENTRY32 {
     pub dw_size: u32,
     pub cnt_usage: u32,
@@ -119,4 +121,83 @@ pub fn close_process(process_handle: External<HANDLE>) -> Result<()> {
     }
 
     return Ok(());
+}
+
+#[napi(ts_args_type = "processHandle: ExternalObject<HANDLE>")]
+pub fn is_process_x64(process_handle: External<HANDLE>) -> Result<bool> {
+    let mut process_architecture = 0;
+
+    let result = unsafe {
+        IsWow64Process(
+            *process_handle,
+            &mut process_architecture as *mut i32 as *mut i32,
+        )
+    };
+
+    if result == 0 {
+        return Err(Error::new(Status::GenericFailure, get_last_error()?));
+    }
+
+    return Ok(process_architecture == 0);
+}
+
+#[napi(ts_args_type = "processHandle: ExternalObject<HANDLE>")]
+pub fn process_handle_to_pid(process_handle: External<HANDLE>) -> Result<u32> {
+    let process_id = unsafe { GetProcessId(*process_handle) };
+
+    if process_id == 0 {
+        return Err(Error::new(Status::GenericFailure, get_last_error()?));
+    }
+
+    return Ok(process_id);
+}
+
+#[napi(ts_args_type = "processName: string")]
+pub fn process_name_to_pid(process_name: String) -> Result<u32> {
+    let processes = list_all_running_processes()?;
+
+    let process = processes
+        .iter()
+        .find(|&process| process.sz_exe_file == process_name);
+
+    if let Some(process) = process {
+        let process_id = process.th32_process_id;
+        return Ok(process_id);
+    }
+
+    return Err(Error::from_status(Status::Closing));
+}
+
+#[napi(ts_args_type = "processHandle: ExternalObject<HANDLE>")]
+pub fn process_handle_to_name(process_handle: External<HANDLE>) -> Result<String> {
+    let mut process_name: [i8; 512] = [0; 512];
+
+    let result = unsafe {
+        GetProcessImageFileNameA(*process_handle, process_name.as_mut_ptr() as *mut i8, 512)
+    };
+
+    if result == 0 {
+        return Err(Error::new(Status::GenericFailure, get_last_error()?));
+    }
+
+    let process_name = unsafe { std::ffi::CStr::from_ptr(process_name.as_ptr()) };
+    let process_name_string = process_name.to_str().unwrap().to_string();
+
+    return Ok(process_name_string);
+}
+
+#[napi(ts_args_type = "processPID: number")]
+pub fn process_pid_to_name(process_pid: u32) -> Result<String> {
+    let processes = list_all_running_processes()?;
+
+    let process = processes
+        .iter()
+        .find(|&process| process.th32_process_id == process_pid);
+
+    if let Some(process) = process {
+        let process_name = &process.sz_exe_file;
+        return Ok(process_name.to_string());
+    }
+
+    return Err(Error::from_status(Status::Closing));
 }
