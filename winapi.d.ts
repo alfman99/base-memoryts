@@ -1,2 +1,2 @@
-type HANDLE = unknown;
-type HMODULE = unknown;
+type HANDLE = unknown
+type HMODULE = unknown
