@@ -58,10 +58,10 @@
   "resolved" "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   "version" "1.2.1"
 
-"@memoryts/base-win32-x64-msvc@1.0.0":
-  "integrity" "sha512-2ZD9odhbBUjI2PliwT7SypuayNRXcVtD2+WgfqPMKMLMATzGUoC//JV4UQf68EQ9mjqPTMUCs9IQFwPLGYiPcg=="
-  "resolved" "https://registry.npmjs.org/@memoryts/base-win32-x64-msvc/-/base-win32-x64-msvc-1.0.0.tgz"
-  "version" "1.0.0"
+"@memoryts/base-win32-x64-msvc@1.0.4":
+  "integrity" "sha512-JVjtcqEAjg7MBN3U5GBnKg8MqXiNlLRy3+VPkigSXQt2CI0ckeZ2B78ceZzOVujeXhcLUKIvvU+U/pi65AppSA=="
+  "resolved" "https://registry.npmjs.org/@memoryts/base-win32-x64-msvc/-/base-win32-x64-msvc-1.0.4.tgz"
+  "version" "1.0.4"
 
 "@napi-rs/cli@^2.14.6":
   "integrity" "sha512-3mLNPlbbOhpbIUKicLrJtIearlHXUuXL3UeueYyRRplpVMNkdn8xCyzY6PcYZi3JXR8bmCOiWgkVmLnrSL7DKw=="
