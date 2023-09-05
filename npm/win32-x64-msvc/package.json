@@ -1,6 +1,6 @@
 {
   "name": "@memoryts/base-win32-x64-msvc",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "os": [
     "win32"
   ],
