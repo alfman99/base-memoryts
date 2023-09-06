@@ -1,6 +1,6 @@
 {
   "name": "@memoryts/base",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Base addon for memoryts",
   "types": "index.d.ts",
   "napi": {
