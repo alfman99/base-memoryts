@@ -1,6 +1,6 @@
 {
   "name": "@memoryts/base",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Base addon for memoryts",
   "types": "index.d.ts",
   "napi": {
@@ -14,14 +14,15 @@
     }
   },
   "license": "MIT",
-  "repository": "git@github.com:napi-rs/package-template.git",
+  "repository": "git@git@github.com:alfman99/base-memoryts.git",
   "keywords": [
-    "napi-rs",
-    "NAPI",
-    "N-API",
-    "Rust",
-    "node-addon",
-    "node-addon-api"
+    "memoryts",
+    "base",
+    "core",
+    "write",
+    "read",
+    "memory",
+    "x64"
   ],
   "engines": {
     "node": ">= 10"
@@ -97,7 +98,7 @@
   },
   "packageManager": "yarn@3.6.2",
   "optionalDependencies": {
-    "@memoryts/base-win32-ia32-msvc": "1.0.7",
-    "@memoryts/base-win32-x64-msvc": "1.0.7"
+    "@memoryts/base-win32-ia32-msvc": "1.0.8",
+    "@memoryts/base-win32-x64-msvc": "1.0.8"
   }
 }

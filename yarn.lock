@@ -93,16 +93,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@memoryts/base-win32-ia32-msvc@npm:1.0.7":
-  version: 1.0.7
-  resolution: "@memoryts/base-win32-ia32-msvc@npm:1.0.7"
+"@memoryts/base-win32-ia32-msvc@npm:1.0.8":
+  version: 1.0.8
+  resolution: "@memoryts/base-win32-ia32-msvc@npm:1.0.8"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@memoryts/base-win32-x64-msvc@npm:1.0.7":
-  version: 1.0.7
-  resolution: "@memoryts/base-win32-x64-msvc@npm:1.0.7"
+"@memoryts/base-win32-x64-msvc@npm:1.0.8":
+  version: 1.0.8
+  resolution: "@memoryts/base-win32-x64-msvc@npm:1.0.8"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -111,8 +111,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@memoryts/base@workspace:."
   dependencies:
-    "@memoryts/base-win32-ia32-msvc": 1.0.7
-    "@memoryts/base-win32-x64-msvc": 1.0.7
+    "@memoryts/base-win32-ia32-msvc": 1.0.8
+    "@memoryts/base-win32-x64-msvc": 1.0.8
     "@napi-rs/cli": ^2.14.6
     "@swc-node/register": ^1.5.5
     "@swc/core": ^1.3.32
