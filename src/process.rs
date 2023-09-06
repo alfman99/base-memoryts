@@ -201,3 +201,17 @@ pub fn process_pid_to_name(process_pid: u32) -> Result<String> {
 
     return Err(Error::from_status(Status::Closing));
 }
+
+#[test]
+pub fn test_is_process_x64() {
+    let process_handle = open_process_name("Notepad.exe".to_string()).unwrap();
+    let is_process_x64 = is_process_x64(process_handle).unwrap();
+    assert_eq!(is_process_x64, true);
+}
+
+#[test]
+pub fn test_is_process_x86() {
+    let process_handle = open_process_name("Spotify.exe".to_string()).unwrap();
+    let is_process_x64 = is_process_x64(process_handle).unwrap();
+    assert_eq!(is_process_x64, false);
+}
