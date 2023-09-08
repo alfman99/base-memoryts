@@ -32,8 +32,9 @@
   },
   "scripts": {
     "artifacts": "napi artifacts",
-    "build": "napi build --target x86_64-pc-windows-msvc --platform --release --pipe \"prettier -w\"",
-    "build:32": "napi build --target i686-pc-windows-msvc --platform --release --pipe \"prettier -w\"",
+    "build": "napi build --target x86_64-pc-windows-msvc --platform --release --pipe \"prettier -w\" && npm run postBuild",
+    "build:32": "napi build --target i686-pc-windows-msvc --platform --release --pipe \"prettier -w\" && npm run postBuild",
+    "postBuild": "sh ./scripts/postBuild.sh",
     "build:debug": "napi build --platform --pipe \"prettier -w\"",
     "format": "run-p format:prettier format:rs format:toml",
     "format:prettier": "prettier . -w",

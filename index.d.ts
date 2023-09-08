@@ -75,4 +75,3 @@ export class Jsmoduleentry32 {
 
 export type HANDLE = unknown;
 export type HMODULE = unknown;
-
