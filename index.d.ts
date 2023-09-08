@@ -72,3 +72,7 @@ export class Jsmoduleentry32 {
   szExePath: string
   get moduleHandle(): ExternalObject<HMODULE>
 }
+
+export type HANDLE = unknown;
+export type HMODULE = unknown;
+
