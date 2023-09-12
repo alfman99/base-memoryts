@@ -13,7 +13,7 @@
     }
   },
   "license": "MIT",
-  "repository": "git@git@github.com:alfman99/base-memoryts.git",
+  "repository": "https://github.com/alfman99/base-memoryts.git",
   "keywords": [
     "memoryts",
     "base",
